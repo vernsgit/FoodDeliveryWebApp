@@ -1,0 +1,20 @@
+{% extends 'profile_main.jinja' %}
+{% block content %}
+    <div class="profile_block">
+        <h4>Údaje profilu</h4>
+        <dl>
+            <dt>Jméno:</dt>
+            <dd>{{ jmeno }}</dd>
+            <dt>Příjmení:</dt>
+            <dd>{{ prijmeni }}</dd>
+            <dt>Role:</dt>
+            <dd>{{ role }}</dd>
+            <dt>Email:</dt>
+            <dd>{{ email }}</dd>
+            <dt>Telefon:</dt>
+            <dd>{{ telefon }}</dd>
+            <dt>Datum registrace:</dt>
+            <dd>{{ datum_registrace }}</dd>
+        </dl>
+    </div>
+{% endblock %}

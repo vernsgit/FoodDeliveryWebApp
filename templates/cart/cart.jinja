@@ -1,0 +1,59 @@
+{% extends 'main.jinja' %}
+
+
+{% block content %}
+<div class="container">
+    <h4 class="h4-content">Váš košík</h4>
+
+    {% if items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Název</th>
+                    <th>Cena za kus</th>
+                    <th>Sleva</th>
+                    <th>Množství</th>
+                    <th>Celková cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        <img width="50px" height="50px" src="{{ url_for('static', filename=item.foto_jidla .replace('\\', '/'))  }}" alt="Fotografie položky">
+                    </td>
+                    <td>{{ item.nazev }}</td>
+                    <td>
+                        {% if item.akce.sleva_procenta %}
+                            <span class="old-price">{{ (item.cena * 1.15) | round(2) }} Kč</span>
+                            <span class="new-price">{{ ((item.cena * 1.15) * (100 - item.akce.sleva_procenta) / 100) | round(2) }} Kč</span>
+                        {% else %}
+                            <span class="regular-price">{{ (item.cena * 1.15) | round(2) }} Kč</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ item.akce.sleva_procenta }} {% if item.akce.sleva_procenta %}%{% endif %}</td>
+                    <td>{{ item.mnozstvi }}</td>
+                    <td>{{ item.cena_itemu | round(2)}} Kč</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h5>Celková cena: {{ total_price | round(2)}} Kč</h5>
+
+        <div class="cart-actions">
+            <form method="POST" action="{{ url_for('cart.clear_cart') }}">
+                <button type="submit" class="btn">Vyprázdnit košík</button>
+            </form>
+
+            <form method="POST">
+                <button type="submit" class="btn">Objednat</button>
+            </form>
+        </div>
+    {% else %}
+        <p>Váš košík je prázdný.</p>
+    {% endif %}
+</div>
+{% endblock %}

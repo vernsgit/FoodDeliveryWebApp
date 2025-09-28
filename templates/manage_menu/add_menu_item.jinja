@@ -1,0 +1,20 @@
+{% extends 'main.jinja' %}
+{% from 'macros/form.jinja' import form_field with context %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="h4-content">Přidat položku do menu</h4>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form_field(form.nazev) }}
+            {{ form_field(form.cena) }}
+            {{ form_field(form.cena_nakladu) }}
+            {{ form_field(form.typ_jidla) }}
+            {{ form_field(form.foto_jidla) }}
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Přidat</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

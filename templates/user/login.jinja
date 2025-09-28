@@ -1,0 +1,21 @@
+{% extends 'main.jinja' %}
+{% from 'macros/form.jinja' import form_field with context %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="h4-content">Přihlášení</h4>
+        <form method="POST" action="{{ url_for('user.login') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-container">
+                {{ form_field(form.login) }}
+            </div>
+
+            <div class="form-container">
+                {{ form_field(form.password) }}
+            </div>
+
+            <button type="submit" class="btn btn-success">Přihlásit se</button>
+
+        </form>
+    </div>
+{% endblock %}

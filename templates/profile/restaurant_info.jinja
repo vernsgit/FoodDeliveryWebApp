@@ -1,0 +1,35 @@
+{% extends 'profile_main.jinja' %}
+{% from 'macros/form.jinja' import form_field with context %}
+
+{% block content %}
+    <div class="profile_block">
+        <h4>Údaje restaurace</h4>
+        {% if restaurace %}
+            <dl>
+                <dt>Název:</dt>
+                <dd>{{ restaurace['nazev'] }}</dd>
+                <dt>Popis:</dt>
+                <dd>{{ restaurace['info'] or "Není zadáno" }}</dd>
+                <dt>Adresa:</dt>
+                <dd>{{ restaurace['adresa'] }}</dd>
+                <dt>Druh kuchyně:</dt>
+                <dd>{{ restaurace['druh_kuchyne'] }}</dd>
+                <dt>Fotografie:</dt>
+            </dl>
+                <img src="{{ url_for('static', filename=restaurace['foto_restaurace'].replace('\\', '/'))  }}" alt="Fotografie restaurace">
+                <form method="post">
+                    <button type="submit" name="delete" class="btn btn-success">Vymazat restauraci</button>
+                </form>
+        {% else %}
+            <form method="post" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ form_field(form.nazev) }}
+                {{ form_field(form.info) }}
+                {{ form_field(form.adresa) }}
+                {{ form_field(form.druh_kuchyne) }}
+                {{ form_field(form.foto_restaurace) }}
+                <button type="submit" class="btn btn-success">Uložit</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

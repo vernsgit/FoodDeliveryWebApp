@@ -1,0 +1,26 @@
+{% extends 'main.jinja' %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="h4-content">Seznam restaurací</h4>
+        {% if not restaurace %}
+            <p>Momentálně nejsou dostupné žádné restaurace.</p>
+        {% endif %}
+        <div class="restaurant-list">
+            {% for restaurace in restaurace %}
+                <a href="{{ url_for('restaurant.restaurant_menu', restaurant_id=restaurace['id_restaurace']) }}">
+                    <div class="restaurant-parcel-content">
+                        <div class="restaurant-info">
+                            <h5>{{ restaurace['nazev'] }}</h5>
+                            <p>Druh kuchyně: {{ restaurace['druh_kuchyne'] }}</p>
+                            <p>Adresa: {{ restaurace['adresa'] }}</p>
+                        </div>
+                        <div class="restaurant-image">
+                            <img src="{{ url_for('static', filename=restaurace['foto_restaurace'].replace('\\', '/')) }}" alt="Fotografie restaurace">
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

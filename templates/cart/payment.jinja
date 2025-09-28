@@ -1,0 +1,13 @@
+{% extends 'main.jinja' %}
+
+
+{% block content %}
+    <div class="container">
+        <h4>Platba za objednávku</h4>
+        <p>Celková částka k úhradě: {{ total_price+transport_costs | round(2) }} Kč</p>
+        <form method="POST">
+            <button type="submit" class="btn">Zaplatit</button>
+        </form>
+    </div>
+{% endblock %}
+

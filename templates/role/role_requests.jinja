@@ -1,0 +1,56 @@
+{% extends 'profile/../profile_main.jinja' %}
+
+{% block content %}
+    <div class="profile_block">
+        <h4>Správa žádostí o změnu role</h4>
+        {% if zadosti %}
+            <table class="table request-list">
+                <thead>
+                    <tr>
+                        <th>Jméno</th>
+                        <th>Příjmení</th>
+                        <th>Email</th>
+                        <th>Požadovaná role</th>
+                        <th>Datum žádosti</th>
+                        <th>Akce</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for zadost in zadosti %}
+                    <tr>
+                        <td>{{ zadost.jmeno }}</td>
+                        <td>{{ zadost.prijmeni }}</td>
+                        <td>{{ zadost.email }}</td>
+                        <td>{{ zadost.typ_role }}</td>
+                        <td>{{ zadost.datum_zadosti }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('admin_requests', user_id=user_id) }}" style="display: inline;">
+                                {{ form.hidden_tag() }}
+                                <div class="form-field">
+                                    {{ form.id_zadosti(class="hidden", value=zadost.id_zadosti) }}
+                                </div>
+                                <div class="form-field">
+                                    {{ form.action(class="hidden", value="schváleno") }}
+                                </div>
+                                <button type="submit" class="btn btn-success">Schválit</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin_requests', user_id=user_id) }}" style="display: inline;">
+                                {{ form.hidden_tag() }}
+                                <div class="form-field">
+                                    {{ form.id_zadosti(class="hidden", value=zadost.id_zadosti) }}
+                                </div>
+                                <div class="form-field">
+                                    {{ form.action(class="hidden", value="zamítnuto") }}
+                                </div>
+                                <button type="submit" class="btn btn-danger">Zamítnout</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Momentálně není podaná žádná žádost o roli.</p>
+        {% endif %}
+    </div>
+{% endblock %}

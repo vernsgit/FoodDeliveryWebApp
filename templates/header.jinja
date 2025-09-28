@@ -1,0 +1,31 @@
+{% block header %}
+<header>
+    <div class="container">
+        <div class="nav-grid">
+            <div class="nav-logo_main-l">
+                <a href="{{ url_for('home_page') }}"><img src="/static/images/logo_main.png" width="182px" height="68px"></a>
+            </div>
+            <div class="nav-profile-r">
+                {% if session.get('user_id') %}
+                    <div class="user-icon">
+                        <a href="{{ url_for('profile.user_info', user_id=session['user_id']) }}"><img src="/static/images/profile_icon.svg" id="profile-circle" alt=""></a>
+                    </div>
+                {% else %}
+                    <a class="first" href="{{ url_for('user.register')}}">Registrace</a>
+                    <a class="second" href="{{ url_for('user.login')}}">Přihlášení</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="sub-nav">
+
+            <a class="{{ is_active(url_for('cart.cart')) }}" href="{{ url_for('cart.cart') }}"><img src="/static/images/shopping_cart.svg" alt="Košík" width="30px" height="17px" class="cart-icon"></a>
+            <a class="{{ is_active(url_for('restaurant.restaurants_list')) }}" href="{{ url_for('restaurant.restaurants_list') }}">Restaurace</a>
+
+            <a class="{{ is_active(url_for('cart.orders')) }}" href="{{ url_for('cart.orders') }}">Objednávky</a>
+            {% if session['user_role'] == 'restauratér' %}
+                <a class="{{ is_active(url_for('manage_menu.manage_menu')) }}" href="{{ url_for('manage_menu.manage_menu') }}">Správa menu</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+{% endblock %}

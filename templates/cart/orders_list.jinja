@@ -1,0 +1,33 @@
+{% extends 'main.jinja' %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="h4-content">Vaše objednávky</h4>
+        {% if order %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Objednávky</th>
+                        <th>Stav Objednávky</th>
+                        <th>Způsob Platby</th>
+                        <th>Datum Vytvoření</th>
+                        <th>Stav Zaplacení</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order['id_objednavky'] }}</td>
+                            <td>{{ order['stav_objednavky'] }}</td>
+                            <td>{{ order['zpusob_platby'] }}</td>
+                            <td>{{ order['datum_vytvoreni'] }}</td>
+                            <td>{% if order['zpusob_platby'] == 'online' %}Zaplaceno{% else %}Nezaplaceno{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Momentálně nejsou žádné objednávky</p>
+        {% endif %}
+    </div>
+{% endblock %}

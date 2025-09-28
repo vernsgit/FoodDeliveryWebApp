@@ -1,0 +1,96 @@
+{% extends 'main.jinja' %}
+
+{% block content %}
+    <div class="container">
+        <div class="menu-action">
+            <h4 class="h4-content">Aktuální slevy</h4>
+            <form method="POST">
+                <button type="submit" name="add_discount" class="btn btn-primary">Přidat slevovou akci</button>
+            </form>
+             {% for action in discount_actions %}
+                <div class="discount-action">
+                    <form method="POST">
+                        <p>{{ action.nazev_akce }} | Sleva: {{ action.sleva_procenta }}% | Začátek: {{ action.zacatek }} | Konec: {{ action.konec }} | <button type="submit" name="delete_discount" value="{{ action.id_akce }}" class="btn btn-danger">Zrušit akci</button></p>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <form method="POST">
+            <h4 class="h4-content">Správa menu</h4>
+            <div class="form-group">
+                <button type="submit" name="add_item" class="btn">Přidat položku</button>
+            </div>
+        </form>
+
+        <form method="POST">
+            <div class="menu-container">
+                {% if chod_items %}
+                <div class="menu-column-food">
+                    <h5>CHODY</h5>
+                    {% for item in chod_items %}
+                        <div class="menu-item">
+                            <div class="menu-item-photo">
+                                <img src="{{ url_for('static', filename=item.foto_jidla.replace('\\', '/')) }}" alt="{{ item.nazev }}">
+                                <button class="remove-item" type="submit" name="delete_item" value="{{ item.id_jidla }}">
+                                </button>
+                            </div>
+                            <div class="menu-item-info">
+                                <h4>{{ item.nazev }}</h4>
+                                <p>
+                                    {% if item.sleva_procenta %}
+                                        <span class="old-price">{{ (item.cena * 1.15) | round(2) }} Kč</span>
+                                        <span class="new-price">{{ ((item.cena * 1.15) * (100 - item.sleva_procenta) / 100) | round(2) }} Kč</span>
+                                    {% else %}
+                                        <span class="price">{{ (item.cena * 1.15) | round(2) }} Kč</span>
+                                    {% endif %}
+                                </p>
+                                <p>Náklady chodu: {{ item.cena_nakladu }} Kč</p>
+                                <label for="dostupnost_{{ item.id_jidla }}">Dostupnost:</label>
+                                <select name="dostupnost_{{ item.id_jidla }}" id="dostupnost_{{ item.id_jidla }}">
+                                    <option value="1" {% if item.dostupnost == 1 %}selected{% endif %}>Dostupné</option>
+                                    <option value="0" {% if item.dostupnost == 0 %}selected{% endif %}>Nedostupné</option>
+                                </select>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if piti_items %}
+                <div class="menu-column-drink">
+                    <h5>PITÍ</h5>
+                    {% for item in piti_items %}
+                        <div class="menu-item">
+                            <div class="menu-item-photo">
+                                <img src="{{ url_for('static', filename=item.foto_jidla.replace('\\', '/')) }}" alt="{{ item.nazev }}">
+                                <button class="remove-item" type="submit" name="delete_item" value="{{ item.id_jidla }}"></button>
+                            </div>
+                            <div class="menu-item-info">
+                                <h4>{{ item.nazev }}</h4>
+                                <p>
+                                    {% if item.sleva_procenta %}
+                                        <span class="old-price">{{ (item.cena * 1.15) | round(2) }} Kč</span>
+                                        <span class="new-price">{{ ((item.cena * 1.15) * (100 - item.sleva_procenta) / 100) | round(2) }} Kč</span>
+                                    {% else %}
+                                        <span class="price">{{ (item.cena * 1.15) | round(2) }} Kč</span>
+                                    {% endif %}
+                                </p>
+                                <p>Náklady pití: {{ item.cena_nakladu }} Kč</p>
+                                <label for="dostupnost_{{ item.id_jidla }}">Dostupnost:</label>
+                                <select name="dostupnost_{{ item.id_jidla }}" id="dostupnost_{{ item.id_jidla }}">
+                                    <option value="1" {% if item.dostupnost == 1 %}selected{% endif %}>Dostupné</option>
+                                    <option value="0" {% if item.dostupnost == 0 %}selected{% endif %}>Nedostupné</option>
+                                </select>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="save_changes" class="btn btn-success">Uložit změny dostupnosti</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

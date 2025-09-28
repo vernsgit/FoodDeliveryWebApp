@@ -1,0 +1,32 @@
+{% extends 'main.jinja' %}
+{% from 'macros/form.jinja' import form_inline_field, form_field with context %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="h4-content">Přidat slevovou akci</h4>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form_field(form.nazev) }}
+            {{ form_field(form.sleva_procenta) }}
+            {{ form_field(form.zacatek) }}
+            {{ form_field(form.konec) }}
+
+            <div class="form-group">
+                <label for="jidla">Vyberte jídla pro slevovou akci:</label>
+                <div class="checkbox-group">
+                    {% for jidlo in jidla %}
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="jidla" value="{{ jidlo.id_jidla }}" id="jidlo_{{ jidlo.id_jidla }}">
+                            <label for="jidlo_{{ jidlo.id_jidla }}">{{ jidlo.nazev }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Uložit akci</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

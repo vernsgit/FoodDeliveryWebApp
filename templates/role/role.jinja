@@ -1,0 +1,44 @@
+{% extends 'profile_main.jinja' %}
+{% from 'macros/form.jinja' import form_inline_field with context %}
+
+{% block content %}
+    <div class="profile_block">
+        <div class="role_request">
+            <h4>Žádost o roli</h4>
+            <form method="POST" action="{{ url_for('role.request_role', user_id=session['user_id']) }}">
+                {{ form.hidden_tag() }}
+                <div class="form-inline">
+                    {{ form_inline_field(form.role) }}
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn">Odeslat žádost</button>
+                </div>
+            </form>
+        </div>
+
+        {% if role_requests %}
+            <div class="table role_list">
+                <h4 class="h4-content">Seznam žádostí</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Typ role</th>
+                            <th>Stav</th>
+                            <th>Datum podání</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in role_requests %}
+                            <tr>
+                                <td>{{ request[0] }}</td>
+                                <td>{{ request[1] }}</td>
+                                <td>{{ request[2] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

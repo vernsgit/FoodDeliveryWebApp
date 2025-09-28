@@ -1,0 +1,24 @@
+
+{% macro form_field(field, variant='block') %}
+    <div class="form-field {{ variant }}">
+        <div class="form-field-label">{{ field.label }}</div>
+        {% if field.type == 'datetime' %}
+            {# Speciální podpora pro datový picker #}
+            <input type="text" class="datetime-picker" name="{{ field.name }}" value="{{ field.data }}" {{ kwargs|join(' ') }} />
+        {% else %}
+            {{ field(**kwargs)|safe }}
+        {% endif %}
+
+        {% if field.errors %}
+            <ul class="errors">
+                {% for error in field.errors %}
+                    <li>⚠️{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro form_inline_field(field) %}
+    {{ form_field(field, 'inline') }}
+{% endmacro %}

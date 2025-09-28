@@ -1,0 +1,38 @@
+<div class="aside-block">
+    <ul>
+        <li class="{{ is_active(url_for('profile.user_info', user_id=session['user_id'])) }}">
+            <a href="{{ url_for('profile.user_info', user_id=session['user_id']) }}">Údaje profilu</a>
+        </li>
+
+        {% if session['user_role'] == 'administrátor' %}
+            <li><a href="">Správa účtů</a></li>
+            <li class="{{ is_active(url_for('admin_requests', user_id=session['user_id'])) }}">
+                <a href="{{ url_for('admin_requests', user_id=session['user_id']) }}">Správa rolí</a>
+            </li>
+            <li><a href="">Statistika systému</a></li>
+        {% else %}
+            <li class="{{ is_active(url_for('role.request_role', user_id=session['user_id'])) }}">
+                <a href="{{ url_for('role.request_role', user_id=session['user_id']) }}">Role</a>
+            </li>
+        {% endif %}
+
+        {% if session['user_role'] == 'restauratér' %}
+            <li class="{{ is_active(url_for('profile.restaurant_info', user_id=session['user_id'])) }}">
+                <a href="{{ url_for('profile.restaurant_info', user_id=session['user_id']) }}">Údaje restaurace</a>
+            </li>
+            <li><a href="">Historie objednávek</a></li>
+            <li><a href="">Statistika výnosů a nákladů</a></li>
+        {% elif session['user_role'] == 'klient' %}
+            <li><a href="">Aktuální objednávky</a></li>
+            <li><a href="">Historie objednávek</a></li>
+        {% elif session['user_role'] == 'poslíček' %}
+            <li><a href="">Historie vykonaných úkolů</a></li>
+        {% endif %}
+
+        <li class="{{ is_active(url_for('user.password_change', user_id=session['user_id'])) }}">
+            <a href="{{ url_for('user.password_change', user_id=session['user_id']) }}">Změna hesla</a>
+        </li>
+        <li><a id="logout-href" href="{{ url_for('user.logout') }}">Odhlásit se</a></li>
+    </ul>
+</div>
+
